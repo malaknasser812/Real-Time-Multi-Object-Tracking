@@ -40,7 +40,109 @@ After quitting the app:
 - *(Optional)* `motion_paths.png` – Save the motion path visualization if desired.
 
 ---
+## 🛠 Implementation Details
 
+The project is implemented in Python using OpenCV and other scientific libraries. Here's a breakdown of the core components and logic:
+
+### 📌 1. Initialization
+
+- The system uses `cv2.VideoCapture(0)` to open the webcam stream.
+- All active and archived tracked objects are managed using two lists:
+  - `active_trackers`: stores objects currently being tracked.
+  - `all_trackers`: stores all objects ever tracked for analysis, even if unselected.
+
+```python
+cap = cv2.VideoCapture(0)
+active_trackers = []
+all_trackers = []
+object_id = 0
+frame_count = 0
+
+```
+
+### 🧠 2. TrackedObject Class
+- Each object selected for tracking is wrapped in a custom class to store:
+- The tracker object (cv2.legacy.TrackerCSRT_create())
+- The ROI selected by the user
+- A unique ID
+- A list of its center positions during motio
+- Start and end frame indices (used to calculate duration)
+- A flag active indicating whether it's still being tracked
+
+```python
+class TrackedObject:
+    def __init__(self, tracker, roi, object_id, start_frame):
+        self.tracker = tracker
+        self.roi = roi
+        self.id = object_id
+        self.positions = []
+        self.start_frame = start_frame
+        self.end_frame = start_frame
+        self.active = True
+```
+### 🎥 3. Object Tracking Loop
+- Each frame is processed in a loop.
+- If an object is active, the system updates its tracker.
+- If tracking is successful, the new bounding box is drawn and the object’s center is recorded.
+- If tracking fails (e.g. object moves out of frame), it is marked as inactive but not deleted.
+```python
+for obj in active_trackers:
+    if obj.active:
+        success, box = obj.tracker.update(frame)
+        if success:
+            center = compute_center(box)
+            obj.positions.append(center)
+            obj.end_frame = frame_count
+        else:
+            obj.active = False
+            active_trackers.remove(obj)
+```
+
+
+### 🖱 4. User Controls
+- s: User selects a new object using cv2.selectROI. A new tracker is initialized and added.
+- u: Clears all active trackers but keeps the history in all_trackers.
+- r: Starts recording the live feed into tracked_output.mp4.
+- x: Stops and saves the video file.
+- q: Quits the application and generates final analysis.
+
+
+### 📈 5. Motion Analysis
+- After quitting, statistics are computed for each tracked object:
+- Total Distance: Sum of Euclidean distances between consecutive center points.
+- Average Speed: Total distance divided by number of frames.
+
+```python
+distances = [
+    np.linalg.norm(np.array(obj.positions[i+1]) - np.array(obj.positions[i]))
+    for i in range(len(obj.positions) - 1)
+]
+total_distance = sum(distances)
+avg_speed = total_distance / lifetime
+```
+
+
+### 📊 6. Visualization and Export
+- A trajectory plot is created using matplotlib, showing the path each object followed.
+- A CSV file tracking_stats.csv is saved with summary metrics for each object:
+- - Object ID
+- - Total distance
+- - Average speed
+
+Duration (seconds)
+```python
+plt.plot(positions[:, 0], positions[:, 1], marker='o', label=f'Object ID {obj.id}')
+df.to_csv("tracking_stats.csv", index=False)
+```
+
+
+### 💾 Outputs
+- tracked_output.mp4: Optional recording of the session.
+- tracking_stats.csv: Table of object motion statistics.
+- Matplotlib motion plot (displayed, can be saved if needed).
+
+
+---
 ## 🚀 Instructions for Deployment
 
 Follow the steps below to set up and run the application locally:
