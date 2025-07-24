@@ -50,11 +50,9 @@ Follow the steps below to set up and run the application locally:
 ```bash
 git clone https://github.com/your-username/object-tracking-opencv.git
 cd object-tracking-opencv
-
-### 2️⃣ Install Dependencies
-`pip install opencv`
-/n pip install opencv /n
 ```
+### 2️⃣ Install Dependencies
+```bash
 pip install opencv
 pip install imutils 
 pip install matplotlib 
