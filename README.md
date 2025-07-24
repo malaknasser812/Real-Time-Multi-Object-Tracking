@@ -34,8 +34,6 @@ After quitting the app:
 ---
 ## 🛠 Implementation Details
 
-The project is implemented in Python using OpenCV and other scientific libraries. Here's a breakdown of the core components and logic:
-
 ### 📌 1. Initialization
 
 - The system uses `cv2.VideoCapture(0)` to open the webcam stream.
@@ -47,8 +45,6 @@ The project is implemented in Python using OpenCV and other scientific libraries
 cap = cv2.VideoCapture(0)
 active_trackers = []
 all_trackers = []
-object_id = 0
-frame_count = 0
 
 ```
 
