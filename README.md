@@ -32,14 +32,6 @@ After quitting the app:
 - Recorded video (if found) will be saved as 'tracked_output.mp4'
 
 ---
-
-## 📁 Output Files
-
-- `tracked_output.mp4` – Optional video file of the tracking session.
-- `tracking_stats.csv` – CSV file with object tracking stats.
-- *(Optional)* `motion_paths.png` – Save the motion path visualization if desired.
-
----
 ## 🛠 Implementation Details
 
 The project is implemented in Python using OpenCV and other scientific libraries. Here's a breakdown of the core components and logic:
@@ -125,9 +117,9 @@ avg_speed = total_distance / lifetime
 ### 📊 6. Visualization and Export
 - A trajectory plot is created using matplotlib, showing the path each object followed.
 - A CSV file tracking_stats.csv is saved with summary metrics for each object:
-- - Object ID
-- - Total distance
-- - Average speed
+  - Object ID
+  - Total distance
+  - Average speed
 
 Duration (seconds)
 ```python
