@@ -64,7 +64,7 @@ pip install numpy
 ---
 
 ## 👩‍💻 Author
-**Malak Nasser** <br>
+**Malak Nasser** | AI Engineer <br>
 📧 [E-mail](mallaknasser812@gmail.com) <br>
 🔗 [LinkedIn](https://www.linkedin.com/in/malak-nasser-752ab0214/) 
 
