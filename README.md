@@ -1,4 +1,4 @@
-# 🎯 Real-Time Object Tracking and Statistical Analysis with OpenCV
+# 🎯 Real-Time Multi-object Tracking on selection 
 
 This project is a real-time multi-object tracking application using **OpenCV** and **Python**, where users can:
 - Select and track multiple objects from a live webcam feed.
